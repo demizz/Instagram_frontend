@@ -7,19 +7,19 @@ const MyFollowingsPosts = (props) => {
 
   const { state, dispatch } = useContext(UserContext);
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/mySubPost", {
+    fetch("http://127.0.0.1:8000/api/v1/user/mySubPost", {
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
+        //"Content-Type": "application/json",
+        authorization: "Bearer " + localStorage.getItem("jwt"),
       },
     })
       .then((res) => res.json())
       .then((result) => {
         setData(result.doc);
-        console.log("the initial data when component amount", result.posts);
       });
   }, []);
   const likePost = (id) => {
-    fetch("http://127.0.0.1:8000/like", {
+    fetch("http://127.0.0.1:8000/api/v1/post/like", {
       method: "put",
       headers: {
         "Content-Type": "application/json",
@@ -41,7 +41,7 @@ const MyFollowingsPosts = (props) => {
       .catch((err) => console.log(err));
   };
   const unlikePost = (id) => {
-    fetch("http://127.0.0.1:8000/unlike", {
+    fetch("http://127.0.0.1:8000/api/v1/post/unlike", {
       method: "put",
       headers: {
         "Content-Type": "application/json",
@@ -64,7 +64,7 @@ const MyFollowingsPosts = (props) => {
       .catch((err) => console.log(err));
   };
   const makeComment = (text, postId) => {
-    fetch("http://127.0.0.1:8000/comment", {
+    fetch("http://127.0.0.1:8000/api/v1/post/comment", {
       method: "put",
       headers: {
         "Content-Type": "application/json",

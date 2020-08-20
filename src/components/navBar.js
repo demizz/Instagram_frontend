@@ -10,6 +10,55 @@ const NavBar = () => {
   const searchModal = useRef(null);
   const history = useHistory();
   const { state, dispatch } = useContext(UserContext);
+  const logout = () => {
+    fetch("http://127.0.0.1:8000/api/v1/user/logout", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => console.log(err));
+    localStorage.clear();
+    dispatch({ type: "CLEAR" });
+    history.push("/");
+  };
+  const renderLogo = () => {
+    if (state) {
+      return (
+        <Link to="/home" className="brand-logo left">
+          Instagram
+        </Link>
+      );
+    } else {
+      return (
+        <Link to="/" className="brand-logo left">
+          Instagram
+        </Link>
+      );
+    }
+  };
+  const fetchusers = (query) => {
+    setSearch(query);
+
+    fetch("http://127.0.0.1:8000/api/v1/user/search-users", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({
+        query,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        setusersDetails(result.users);
+      })
+      .catch((err) => console.log(err));
+  };
 
   const RenderList = () => {
     useEffect(() => {
@@ -21,7 +70,12 @@ const NavBar = () => {
           key="0"
           data-target="modal1"
           className="large material-icons modal-trigger"
-          style={{ color: "black" }}
+          style={{
+            color: "black",
+            marginTop: "20px",
+            marginRight: "20px",
+            cursor: "pointer",
+          }}
         >
           search
         </li>,
@@ -35,14 +89,7 @@ const NavBar = () => {
           <Link to="/create">Create new Post </Link>
         </li>,
         ,
-        <button
-          className="btn #c62828 red-darken-3"
-          onClick={() => {
-            localStorage.clear();
-            dispatch({ type: "CLEAR" });
-            history.push("/login");
-          }}
-        >
+        <button className="btn #c62828 red-darken-3" onClick={() => logout()}>
           Logout
         </button>,
       ];
@@ -57,29 +104,11 @@ const NavBar = () => {
       ];
     }
   };
-  const fetchusers = (query) => {
-    setSearch(query);
-    fetch("/search-users", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query,
-      }),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        setusersDetails(result.users);
-      })
-      .catch((err) => console.log(err));
-  };
+
   return (
     <nav>
       <div className="nav-wrapper white">
-        <Link to="/" className="brand-logo left">
-          Instagram
-        </Link>
+        {renderLogo()};
         <ul id="nav-mobile" className="right">
           {RenderList()};
         </ul>
@@ -101,19 +130,16 @@ const NavBar = () => {
             {usersDetails.map((item, key) => {
               return (
                 <Link
+                  key={item._id}
                   to={
                     item._id !== state._id ? "/profile/" + item._id : "/profile"
                   }
+                  onClick={() => {
+                    M.Modal.getInstance(searchModal.current).close();
+                    setSearch("");
+                  }}
                 >
-                  <li
-                    className="collection-item"
-                    key={item._id}
-                    onClick={() =>
-                      M.Modal.getInstance(searchModal.current).close()
-                    }
-                  >
-                    {item.email}
-                  </li>
+                  <li className="collection-item">{item.email}</li>
                 </Link>
               );
             })}

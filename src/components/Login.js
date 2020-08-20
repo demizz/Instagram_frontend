@@ -9,7 +9,7 @@ function Login(props) {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const postData = () => {
-    fetch("http://127.0.0.1:8000/login", {
+    fetch("http://127.0.0.1:8000/api/v1/user/login", {
       method: "post",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
@@ -27,7 +27,7 @@ function Login(props) {
           dispatch({ type: "USER", payload: data.user });
 
           M.toast({ html: data.message, classes: "#43a047 green darken-1" });
-          history.push("/"); //window.setTimeout(()=>{location.assign('/')},1500);
+          history.push("/home"); //window.setTimeout(()=>{location.assign('/')},1500);
         }
       })
       .catch((err) => {
@@ -35,7 +35,7 @@ function Login(props) {
       });
   };
   const forgotPassword = () => {
-    fetch("http://127.0.0.1:8000/forgot-password", {
+    fetch("http://127.0.0.1:8000/api/v1/user/forgot-password", {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -43,7 +43,14 @@ function Login(props) {
       body: JSON.stringify({ email }),
     })
       .then((res) => res.json())
-      .then((result) => console.log(result))
+      .then((result) => {
+        if (result.status === "success") {
+          M.toast({ html: result.message, classes: "#43a047 green darken-1" });
+        } else if (result.status === "fail") {
+          M.toast({ html: result.message, classes: "#c62828 red darken-3" });
+        }
+      })
+
       .catch((err) => console.log(err));
   };
   return (

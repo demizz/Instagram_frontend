@@ -32,7 +32,7 @@ function Signup(props) {
       .catch((err) => console.log(err));
   };
   const postFields = () => {
-    fetch("http://127.0.0.1:8000/signup", {
+    fetch("http://127.0.0.1:8000/api/v1/user/signup", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -55,7 +55,7 @@ function Signup(props) {
           dispatch({ type: "USER", payload: data.user });
 
           M.toast({ html: data.message, classes: "#43a047 green darken-1" });
-          history.push("/");
+          history.push("/home");
         }
       });
   };

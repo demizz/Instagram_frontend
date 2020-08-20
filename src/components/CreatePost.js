@@ -11,7 +11,7 @@ function CreatePost(props) {
 
   useEffect(() => {
     if (url) {
-      fetch("http://127.0.0.1:8000/create", {
+      fetch("http://127.0.0.1:8000/api/v1/post/create", {
         method: "post",
         headers: {
           "Content-Type": "application/json",
@@ -29,7 +29,7 @@ function CreatePost(props) {
             M.toast({ html: data.message, classes: "#c62828 red darken-3" });
           } else if (data.status === "success") {
             M.toast({ html: data.message, classes: "#43a047 green darken-1" });
-            history.push("/");
+            history.push("/home");
           }
         });
     }

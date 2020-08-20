@@ -9,6 +9,7 @@ import CreatePost from "./components/CreatePost";
 import UserProfile from "./components/UserProfile";
 import MyFollowingsPosts from "./components/myFollowingsPosts";
 import ResetToken from "./components/ResetToken";
+import Allposts from "./components/Allposts";
 import { reducer, initialState } from "./reducer/userReducer";
 
 import "./App.css";
@@ -20,15 +21,21 @@ const Routing = () => {
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (user) {
-      history.push("/");
+      history.push("/home");
       dispatch({ type: "USER", payload: user });
-    }
+    } // else if (!state) {
+    //   history.push("/Allposts");
+    // }
   }, []);
   return (
     <Switch>
       <Route exact path="/">
+        <Allposts />
+      </Route>
+      <Route exact path="/home">
         <Home />
       </Route>
+
       <Route path="/login">
         <Login />
       </Route>

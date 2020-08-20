@@ -9,7 +9,7 @@ function UserProfile(props) {
   const { userId } = useParams();
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/user/${userId}`, {
+    fetch(`http://127.0.0.1:8000/api/v1/user/user/${userId}`, {
       headers: {
         "Content-Type": "application/json",
         authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -22,7 +22,7 @@ function UserProfile(props) {
       .catch((err) => console.log(err));
   }, []);
   const followUser = () => {
-    fetch("http://127.0.0.1:8000/follow", {
+    fetch("http://127.0.0.1:8000/api/v1/user/follow", {
       method: "put",
       headers: {
         "Content-Type": "application/json",
@@ -45,7 +45,7 @@ function UserProfile(props) {
       .catch((err) => console.log(err));
   };
   const unfollowUser = () => {
-    fetch("http://127.0.0.1:8000/unfollow", {
+    fetch("http://127.0.0.1:8000/api/v1/user/unfollow", {
       method: "put",
       headers: {
         "Content-Type": "application/json",
@@ -89,7 +89,9 @@ function UserProfile(props) {
               />
             </div>
             <div>
-              <h4>{Profile.user.name}</h4>
+              <h4 style={{ textTransform: "capitalize" }}>
+                {Profile.user.name}
+              </h4>
               <h5>{Profile.user.email}</h5>
               {showFollow ? (
                 <button

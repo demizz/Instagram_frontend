@@ -20,7 +20,7 @@ function Profile(props) {
         .then((data) => {
           setUrl(data.secure_url);
 
-          fetch("http://127.0.0.1:8000/updatePhoto", {
+          fetch("http://127.0.0.1:8000/api/v1/user/updatePhoto", {
             method: "put",
             headers: {
               "Content-Type": "application/json",
@@ -43,7 +43,7 @@ function Profile(props) {
   };
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/myProfile", {
+    fetch("http://127.0.0.1:8000/api/v1/user/myProfile", {
       headers: {
         authorization: "Bearer " + localStorage.getItem("jwt"),
       },
@@ -70,7 +70,7 @@ function Profile(props) {
           />
         </div>
         <div>
-          <h4>{state.name}</h4>
+          <h4 style={{ textTransform: "capitalize" }}>{state.name}</h4>
 
           <div
             style={{

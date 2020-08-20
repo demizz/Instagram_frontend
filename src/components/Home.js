@@ -8,7 +8,7 @@ function Home(props) {
 
   const { state, dispatch } = useContext(UserContext);
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/Allposts", {
+    fetch("http://127.0.0.1:8000/api/v1/post/home", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
@@ -19,7 +19,7 @@ function Home(props) {
       });
   }, []);
   const likePost = (id) => {
-    fetch("http://127.0.0.1:8000/like", {
+    fetch("http://127.0.0.1:8000/api/v1/post/like", {
       method: "put",
       headers: {
         "Content-Type": "application/json",
@@ -41,7 +41,7 @@ function Home(props) {
       .catch((err) => console.log(err));
   };
   const unlikePost = (id) => {
-    fetch("http://127.0.0.1:8000/unlike", {
+    fetch("http://127.0.0.1:8000/api/v1/post/unlike", {
       method: "put",
       headers: {
         "Content-Type": "application/json",
@@ -64,7 +64,7 @@ function Home(props) {
       .catch((err) => console.log(err));
   };
   const makeComment = (text, postId) => {
-    fetch("http://127.0.0.1:8000/comment", {
+    fetch("http://127.0.0.1:8000/api/v1/post/comment", {
       method: "put",
       headers: {
         "Content-Type": "application/json",
@@ -86,7 +86,7 @@ function Home(props) {
       .catch((err) => console.log(err));
   };
   const deletePost = (postId) => {
-    fetch(`http://127.0.0.1:8000/delete/${postId}`, {
+    fetch(`http://127.0.0.1:8000/api/v1/post/delete/${postId}`, {
       method: "delete",
       headers: {
         "Content-Type": "application/json",
@@ -110,10 +110,13 @@ function Home(props) {
         return (
           <div key={item._id} className="card home-card">
             <h5>
-              <Link to={"/profile/" + item.postedBy._id}>
+              <Link
+                to={"/profile/" + item.postedBy._id}
+                style={{ textTransform: "capitalize" }}
+              >
                 {item.postedBy.name}
               </Link>
-              {
+              {item.postedBy._id === state._id ? (
                 <i
                   className="material-icons"
                   style={{ float: "right" }}
@@ -121,7 +124,9 @@ function Home(props) {
                 >
                   delete
                 </i>
-              }
+              ) : (
+                <i></i>
+              )}
             </h5>
             <div className="card-image">
               <img src={item.photo} alt={item.title} />
@@ -146,8 +151,8 @@ function Home(props) {
               )}
 
               <h6>{item.likes.length} likes</h6>
-              <h6>{item.title} </h6>
-              <p>{item.body} </p>
+              <h6 style={{ textTransform: "capitalize" }}>{item.title} </h6>
+              <p style={{ textTransform: "capitalize" }}>{item.body} </p>
               {item.comments.map((comment, key) => {
                 return (
                   <h6 key={comment._id}>
