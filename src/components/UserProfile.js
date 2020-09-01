@@ -9,7 +9,7 @@ function UserProfile(props) {
   const { userId } = useParams();
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/v1/user/user/${userId}`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/user/user/${userId}`, {
       headers: {
         "Content-Type": "application/json",
         authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -22,7 +22,7 @@ function UserProfile(props) {
       .catch((err) => console.log(err));
   }, []);
   const followUser = () => {
-    fetch("http://127.0.0.1:8000/api/v1/user/follow", {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/user/follow`, {
       method: "put",
       headers: {
         "Content-Type": "application/json",
@@ -45,7 +45,7 @@ function UserProfile(props) {
       .catch((err) => console.log(err));
   };
   const unfollowUser = () => {
-    fetch("http://127.0.0.1:8000/api/v1/user/unfollow", {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/user/unfollow`, {
       method: "put",
       headers: {
         "Content-Type": "application/json",

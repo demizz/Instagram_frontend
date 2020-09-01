@@ -20,7 +20,7 @@ function Profile(props) {
         .then((data) => {
           setUrl(data.secure_url);
 
-          fetch("http://127.0.0.1:8000/api/v1/user/updatePhoto", {
+          fetch(`${process.env.REACT_APP_BACKEND_URL}/user/updatePhoto`, {
             method: "put",
             headers: {
               "Content-Type": "application/json",
@@ -43,7 +43,7 @@ function Profile(props) {
   };
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/v1/user/myProfile", {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/user/myProfile`, {
       headers: {
         authorization: "Bearer " + localStorage.getItem("jwt"),
       },

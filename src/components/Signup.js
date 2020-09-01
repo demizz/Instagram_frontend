@@ -32,7 +32,7 @@ function Signup(props) {
       .catch((err) => console.log(err));
   };
   const postFields = () => {
-    fetch("http://127.0.0.1:8000/api/v1/user/signup", {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/user/signup`, {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

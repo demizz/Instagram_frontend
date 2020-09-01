@@ -5,7 +5,7 @@ function Allposts(props) {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/v1/post/", {})
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/post/`, {})
       .then((res) => res.json())
       .then((result) => {
         setData(result.posts);

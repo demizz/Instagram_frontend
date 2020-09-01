@@ -11,7 +11,7 @@ const NavBar = () => {
   const history = useHistory();
   const { state, dispatch } = useContext(UserContext);
   const logout = () => {
-    fetch("http://127.0.0.1:8000/api/v1/user/logout", {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/user/logout`, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -43,7 +43,7 @@ const NavBar = () => {
   const fetchusers = (query) => {
     setSearch(query);
 
-    fetch("http://127.0.0.1:8000/api/v1/user/search-users", {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/user/search-users`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",

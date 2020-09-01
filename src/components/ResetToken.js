@@ -8,7 +8,7 @@ function ResetToken(props) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const { token } = useParams();
   const postData = () => {
-    fetch(`http://127.0.0.1:8000/api/v1/user/resetPassword/${token}`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/user/resetPassword/${token}`, {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

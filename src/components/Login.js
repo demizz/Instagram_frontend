@@ -9,7 +9,7 @@ function Login(props) {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const postData = () => {
-    fetch("http://127.0.0.1:8000/api/v1/user/login", {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/user/login`, {
       method: "post",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
@@ -35,7 +35,7 @@ function Login(props) {
       });
   };
   const forgotPassword = () => {
-    fetch("http://127.0.0.1:8000/api/v1/user/forgot-password", {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/user/forgot-password`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
